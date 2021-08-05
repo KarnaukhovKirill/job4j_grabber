@@ -33,7 +33,7 @@ public class AlertRabbit {
 
     private static int getIntervalFromFile() {
         Properties properties = new Properties();
-        var path = new File("src\\main\\resources\\rabbit.properties").getAbsolutePath();
+        var path = new File("src/main/resources/rabbit.properties").getAbsolutePath();
         try (FileInputStream fis = new FileInputStream(path)) {
             properties.load(fis);
         } catch (Exception e) {
