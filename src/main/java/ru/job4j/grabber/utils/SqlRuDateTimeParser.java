@@ -15,7 +15,7 @@ public class SqlRuDateTimeParser implements DateTimeParses {
         MONTHS.put("фев", "фев.");
         MONTHS.put("мар", "мар.");
         MONTHS.put("апр", "апр.");
-        MONTHS.put("май", "май.");
+        MONTHS.put("май", "мая");
         MONTHS.put("июн", "июн.");
         MONTHS.put("июл", "июл.");
         MONTHS.put("авг", "авг.");
