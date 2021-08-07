@@ -8,33 +8,33 @@ import java.util.*;
 import java.util.function.Function;
 
 public class SqlRuDateTimeParser implements DateTimeParses {
-    Calendar today = Calendar.getInstance();
-    Map<String, String> months = new HashMap<>();
-    {
-        months.put("янв", "янв.");
-        months.put("фев", "фев.");
-        months.put("мар", "мар.");
-        months.put("апр", "апр.");
-        months.put("май", "май.");
-        months.put("июн", "июн.");
-        months.put("июл", "июл.");
-        months.put("авг", "авг.");
-        months.put("сен", "сен.");
-        months.put("окт", "окт.");
-        months.put("ноя", "ноя.");
-        months.put("дек", "дек.");
+    private static final Calendar TODAY = Calendar.getInstance();
+    private static final Map<String, String> MONTHS = new HashMap<>();
+    static {
+        MONTHS.put("янв", "янв.");
+        MONTHS.put("фев", "фев.");
+        MONTHS.put("мар", "мар.");
+        MONTHS.put("апр", "апр.");
+        MONTHS.put("май", "май.");
+        MONTHS.put("июн", "июн.");
+        MONTHS.put("июл", "июл.");
+        MONTHS.put("авг", "авг.");
+        MONTHS.put("сен", "сен.");
+        MONTHS.put("окт", "окт.");
+        MONTHS.put("ноя", "ноя.");
+        MONTHS.put("дек", "дек.");
     }
-    SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yy, HH:mm");
+    private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("dd MMM yy, HH:mm");
 
     @Override
     public LocalDateTime parse(String parse) {
         if (parse.contains("сегодня")) {
-            parse = replaceTodayOrYesterday(parse, sdf -> sdf.format(today.getTime()));
+            parse = replaceTodayOrYesterday(parse, sdf -> sdf.format(TODAY.getTime()));
             return getLocalDateTime(parse);
         }
         if (parse.contains("вчера")) {
-            today.add(Calendar.DAY_OF_YEAR, -1);
-            var yesterday = today.getTime();
+            TODAY.add(Calendar.DAY_OF_YEAR, -1);
+            var yesterday = TODAY.getTime();
             parse = replaceTodayOrYesterday(parse, sdf -> sdf.format(yesterday));
             return getLocalDateTime(parse);
         }
@@ -45,14 +45,14 @@ public class SqlRuDateTimeParser implements DateTimeParses {
 
     private String changeMonth(String parse) {
         var array = parse.split(" ");
-        array[1] = months.get(array[1]);
+        array[1] = MONTHS.get(array[1]);
         return String.join(" ", array);
     }
 
     private LocalDateTime getLocalDateTime(String parse) {
         LocalDateTime localDateTime = null;
         try {
-            var date = formatter.parse(parse);
+            var date = FORMATTER.parse(parse);
             localDateTime = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         } catch (ParseException e) {
             e.printStackTrace();
@@ -61,7 +61,7 @@ public class SqlRuDateTimeParser implements DateTimeParses {
     }
 
     public String replaceTodayOrYesterday(String parse, Function<SimpleDateFormat, String> function) {
-        var todayDate = function.apply(formatter);
+        var todayDate = function.apply(FORMATTER);
         var time = parse.split(", ")[1];
         var date = todayDate.split(", ")[0];
         return date + ", " + time;
