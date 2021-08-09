@@ -1,6 +1,7 @@
 package ru.job4j.grabber;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Post {
     private int id;
@@ -8,8 +9,17 @@ public class Post {
     private String link;
     private String description;
     private LocalDateTime created;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd MMMM yyyy, HH:mm");
 
     public Post() {
+    }
+
+    public Post(int id, String title, String link, String description, LocalDateTime created) {
+        this.id = id;
+        this.title = title;
+        this.link = link;
+        this.description = description;
+        this.created = created;
     }
 
     public int getId() {
@@ -58,7 +68,7 @@ public class Post {
         + "Title: " + title + System.lineSeparator()
         + "Link: " + link + System.lineSeparator()
         + "Description: " + description + System.lineSeparator()
-        + "Created at " + created + System.lineSeparator()
+        + "Created at " + created.format(FORMATTER) + System.lineSeparator()
         + "}";
     }
 
