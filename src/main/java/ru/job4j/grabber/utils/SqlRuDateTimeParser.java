@@ -8,20 +8,20 @@ import java.util.*;
 import java.util.function.Function;
 
 public class SqlRuDateTimeParser implements DateTimeParses {
-    private static final Calendar TODAY = Calendar.getInstance();
+    private Calendar today = Calendar.getInstance();
     private static final Map<String, String> MONTHS = new HashMap<>();
     static {
         MONTHS.put("янв", "янв.");
-        MONTHS.put("фев", "фев.");
+        MONTHS.put("фев", "февр.");
         MONTHS.put("мар", "мар.");
         MONTHS.put("апр", "апр.");
         MONTHS.put("май", "мая");
         MONTHS.put("июн", "июн.");
         MONTHS.put("июл", "июл.");
         MONTHS.put("авг", "авг.");
-        MONTHS.put("сен", "сен.");
+        MONTHS.put("сен", "сент.");
         MONTHS.put("окт", "окт.");
-        MONTHS.put("ноя", "ноя.");
+        MONTHS.put("ноя", "нояб.");
         MONTHS.put("дек", "дек.");
     }
     private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("dd MMM yy, HH:mm");
@@ -29,12 +29,12 @@ public class SqlRuDateTimeParser implements DateTimeParses {
     @Override
     public LocalDateTime parse(String parse) {
         if (parse.contains("сегодня")) {
-            parse = replaceTodayOrYesterday(parse, sdf -> sdf.format(TODAY.getTime()));
+            parse = replaceTodayOrYesterday(parse, sdf -> sdf.format(today.getTime()));
             return getLocalDateTime(parse);
         }
         if (parse.contains("вчера")) {
-            TODAY.add(Calendar.DAY_OF_YEAR, -1);
-            var yesterday = TODAY.getTime();
+            today.add(Calendar.DAY_OF_YEAR, -1);
+            var yesterday = today.getTime();
             parse = replaceTodayOrYesterday(parse, sdf -> sdf.format(yesterday));
             return getLocalDateTime(parse);
         }
@@ -60,7 +60,7 @@ public class SqlRuDateTimeParser implements DateTimeParses {
         return localDateTime;
     }
 
-    public String replaceTodayOrYesterday(String parse, Function<SimpleDateFormat, String> function) {
+    private String replaceTodayOrYesterday(String parse, Function<SimpleDateFormat, String> function) {
         var todayDate = function.apply(FORMATTER);
         var time = parse.split(", ")[1];
         var date = todayDate.split(", ")[0];
