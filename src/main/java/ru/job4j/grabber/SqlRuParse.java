@@ -8,7 +8,6 @@ import java.util.List;
 
 public class SqlRuParse implements Parse {
     private final DateTimeParses dateTimeParses;
-    private int counter = 0;
 
     public SqlRuParse(DateTimeParses dateTimeParses) {
         this.dateTimeParses = dateTimeParses;
@@ -47,7 +46,7 @@ public class SqlRuParse implements Parse {
             var date = dateTimeParses.parse(time);
             var header = doc.select("td.messageHeader").text();
             var title = header.split(" \\[new]")[0];
-            return new Post(counter++, title, link, description, date);
+            return new Post(title, link, description, date);
         } catch (IOException e) {
             e.printStackTrace();
         }
