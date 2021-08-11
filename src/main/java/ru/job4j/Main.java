@@ -1,6 +1,6 @@
 package ru.job4j;
 
-import ru.job4j.grabber.SqlRuParse;
+import ru.job4j.grabber.parse.SqlRuParse;
 import ru.job4j.grabber.utils.SqlRuDateTimeParser;
 
 public class Main {

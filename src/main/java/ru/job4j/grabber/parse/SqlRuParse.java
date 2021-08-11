@@ -1,6 +1,7 @@
-package ru.job4j.grabber;
+package ru.job4j.grabber.parse;
 
 import org.jsoup.Jsoup;
+import ru.job4j.grabber.models.Post;
 import ru.job4j.grabber.utils.DateTimeParses;
 import java.io.IOException;
 import java.util.ArrayList;
