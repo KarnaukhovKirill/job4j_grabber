@@ -3,16 +3,14 @@ package ru.job4j.grabber.parse;
 import org.jsoup.Jsoup;
 import ru.job4j.grabber.models.Post;
 import ru.job4j.grabber.utils.DateTimeParses;
+import ru.job4j.grabber.utils.SqlRuDateTimeParser;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SqlRuParse implements Parse {
-    private final DateTimeParses dateTimeParses;
-
-    public SqlRuParse(DateTimeParses dateTimeParses) {
-        this.dateTimeParses = dateTimeParses;
-    }
+    private final DateTimeParses dateTimeParses = new SqlRuDateTimeParser();
 
     @Override
     public List<Post> list(String link) {
